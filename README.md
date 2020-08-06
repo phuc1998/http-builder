@@ -111,7 +111,7 @@ func() {
 	req := &Request{
 		ID: "123456",
 	}
-    cfg := NewConfiguration()
+    	cfg := NewConfiguration()
 	cfg.BasePath = "http://localhost/cars/v1"
 	cfg.HTTPClient = http.DefaultClient
 
@@ -129,7 +129,7 @@ func() {
 ```go
 
 func() {
-    cfg := NewConfiguration()
+    	cfg := NewConfiguration()
 	cfg.BasePath = "http://localhost/cars/v1"
 	cfg.HTTPClient = http.DefaultClient
 
@@ -160,7 +160,7 @@ func() {
 	req := &Request{
 		ID: "123456",
 	}
-    cfg := NewConfiguration()
+    	cfg := NewConfiguration()
 	cfg.BasePath = "http://localhost/cars/v1"
 	cfg.HTTPClient = http.DefaultClient
 
@@ -181,7 +181,7 @@ func() {
 ```go
 
 func() {
-    cfg := NewConfiguration()
+    	cfg := NewConfiguration()
 	cfg.BasePath = "http://localhost/cars/v1"
 	cfg.HTTPClient = http.DefaultClient
 
@@ -213,7 +213,7 @@ func() {
 	req := &Request{
 		ID: "123456",
 	}
-    cfg := NewConfiguration()
+    	cfg := NewConfiguration()
 	cfg.BasePath = "http://localhost/cars/v1"
 	cfg.HTTPClient = http.DefaultClient
 
@@ -244,7 +244,7 @@ func() {
 	req := &RequestBody{
 		ID: "123456",
 	}
-    cfg := NewConfiguration()
+    	cfg := NewConfiguration()
 	cfg.BasePath = "http://localhost/cars/v1"
 	cfg.HTTPClient = http.DefaultClient
 
@@ -288,14 +288,14 @@ func() {
 			ID: "123456",
 		},
 	}
-    cfg := NewConfiguration()
+    	cfg := NewConfiguration()
 	cfg.BasePath = "http://localhost/cars/v1"
 	cfg.HTTPClient = http.DefaultClient
 
 	apiClient := NewAPIClient(cfg)
 	_, err := apiClient.Builder("/booking/detail").
 		Post().
-		BuildForm(req).
+		BuildBody(req).
 		Call(context.Background(), response) //request url: http://localhost/cars/v1/booking/detail?id=123456
 }
   	
@@ -336,7 +336,7 @@ func() {
 			ID: "123456",
 		},
 	}
-    cfg := NewConfiguration()
+    	cfg := NewConfiguration()
 	cfg.BasePath = "http://localhost/cars/v1"
 	cfg.HTTPClient = http.DefaultClient
 
