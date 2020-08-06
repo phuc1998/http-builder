@@ -38,6 +38,7 @@ func (a *service) Builder(url string, acceptHeader ...string) *builder {
 	bd.localVarAcceptHeader = []string{"application/json"}
 	bd.localVarAcceptHeader = append(bd.localVarAcceptHeader, acceptHeader...)
 	bd.a, bd.url = a, url
+	bd.localVarHTTPMethod = _nethttp.MethodGet
 	bd.localVarHeaderParams = make(map[string]string)
 	return bd
 }
