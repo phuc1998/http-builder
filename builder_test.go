@@ -46,7 +46,7 @@ func TestGet(t *testing.T) {
 		}
 	)
 	cfg := NewConfiguration()
-	cfg.BasePath = "http://sb-vexere.zpapps.vn/cars/v1"
+	cfg.BasePath = "http://localhost/cars/v1"
 	cfg.HTTPClient = http.DefaultClient
 
 	apiClient := NewAPIClient(cfg)
