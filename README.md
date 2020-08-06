@@ -187,7 +187,7 @@ func() {
 
 	apiClient := NewAPIClient(cfg)
 	_, err := apiClient.Builder("/booking/detail").
-		Get().
+		Post().
         	SetFormParam("id", "123456").
         	UseMultipartFormData().
 		Call(context.Background(), response) //request url: http://localhost/cars/v1/booking/detail
@@ -219,7 +219,7 @@ func() {
 
 	apiClient := NewAPIClient(cfg)
 	_, err := apiClient.Builder("/booking/detail").
-		Get().
+		Post().
         	BuildForm(req).
         	UseMultipartFormData().
 		Call(context.Background(), response) //request url: http://localhost/cars/v1/booking/detail?id=123456
