@@ -18,7 +18,7 @@ var (
 
 type builder struct {
 	a                        *service
-	url                      string
+	uri                      string
 	localVarAcceptHeader     []string
 	localVarHTTPMethod       string
 	localVarPostBody         interface{}
@@ -31,13 +31,13 @@ type builder struct {
 	localVarHTTPContentTypes []string
 }
 
-func (a *service) Builder(url string, acceptHeader ...string) *builder {
+func (a *service) Builder(uri string, acceptHeader ...string) *builder {
 	var bd = &builder{}
 	bd.localVarQueryParams = _neturl.Values{}
 	bd.localVarFormParams = _neturl.Values{}
 	bd.localVarAcceptHeader = []string{"application/json"}
 	bd.localVarAcceptHeader = append(bd.localVarAcceptHeader, acceptHeader...)
-	bd.a, bd.url = a, url
+	bd.a, bd.uri = a, uri
 	bd.localVarHTTPMethod = _nethttp.MethodGet
 	bd.localVarHeaderParams = make(map[string]string)
 	return bd
@@ -79,7 +79,7 @@ func (b *builder) SetContentType(contentType string) *builder {
 }
 
 func (b *builder) SetPath(key string, value interface{}) *builder {
-	b.url = strings.ReplaceAll(b.url, fmt.Sprintf(":%s", key), parameterToString(value, ""))
+	b.uri = strings.ReplaceAll(b.uri, fmt.Sprintf(":%s", key), parameterToString(value, ""))
 	return b
 }
 
@@ -133,12 +133,12 @@ func (b *builder) BuildPath(pathObject interface{}) *builder {
 	)
 	if pathMap != nil {
 		for key, value := range pathMap.(map[string]interface{}) {
-			b.url = strings.ReplaceAll(b.url, fmt.Sprintf(":%s", key), parameterToString(value, ""))
+			b.uri = strings.ReplaceAll(b.uri, fmt.Sprintf(":%s", key), parameterToString(value, ""))
 		}
 		return b
 	}
 	for key, value := range structField {
-		b.url = strings.ReplaceAll(b.url, fmt.Sprintf(":%s", key), parameterToString(value, ""))
+		b.uri = strings.ReplaceAll(b.uri, fmt.Sprintf(":%s", key), parameterToString(value, ""))
 	}
 	return b
 }
@@ -202,7 +202,7 @@ func (b *builder) BuildRequest(request interface{}) *builder {
 	}
 	if pathMap != nil {
 		for key, value := range pathMap.(map[string]interface{}) {
-			b.url = strings.ReplaceAll(b.url, fmt.Sprintf(":%s", key), parameterToString(value, ""))
+			b.uri = strings.ReplaceAll(b.uri, fmt.Sprintf(":%s", key), parameterToString(value, ""))
 		}
 	}
 	if formMap != nil {
@@ -214,7 +214,7 @@ func (b *builder) BuildRequest(request interface{}) *builder {
 }
 
 func (b *builder) Call(ctx _context.Context, response interface{}) (*_nethttp.Response, error) {
-	localVarPath := b.a.client.cfg.BasePath + b.url
+	localVarPath := b.a.client.cfg.BasePath + b.uri
 	localVarHTTPContentType := selectHeaderContentType(b.localVarHTTPContentTypes)
 	if localVarHTTPContentType != "" {
 		b.localVarHeaderParams["Content-Type"] = localVarHTTPContentType
