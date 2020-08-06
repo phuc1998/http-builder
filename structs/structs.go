@@ -88,10 +88,10 @@ func (s *Struct) Map() map[string]interface{} {
 // given map.
 func (s *Struct) FillMap(out map[string]interface{}) {
 	var (
-		headerMap = make(map[string]interface{})
-		queryMap  = make(map[string]interface{})
-		pathMap   = make(map[string]interface{})
-		form      = make(map[string]interface{})
+		headerMap map[string]interface{}
+		queryMap  map[string]interface{}
+		pathMap   map[string]interface{}
+		form      map[string]interface{}
 		body      interface{}
 	)
 	if out == nil {
@@ -139,21 +139,33 @@ func (s *Struct) FillMap(out map[string]interface{}) {
 		}
 
 		if tagOpts.Has("header") {
+			if headerMap == nil {
+				headerMap = make(map[string]interface{})
+			}
 			headerMap[name] = finalVal
 			continue
 		}
 
 		if tagOpts.Has("query") {
+			if queryMap == nil {
+				queryMap = make(map[string]interface{})
+			}
 			queryMap[name] = finalVal
 			continue
 		}
 
 		if tagOpts.Has("path") {
+			if pathMap == nil {
+				pathMap = make(map[string]interface{})
+			}
 			pathMap[name] = finalVal
 			continue
 		}
 
 		if tagOpts.Has("form") {
+			if form == nil {
+				form = make(map[string]interface{})
+			}
 			form[name] = finalVal
 			continue
 		}
@@ -179,16 +191,16 @@ func (s *Struct) FillMap(out map[string]interface{}) {
 			out[name] = finalVal
 		}
 	}
-	if len(headerMap) > 0 {
+	if headerMap != nil {
 		out["_header_"] = headerMap
 	}
-	if len(queryMap) > 0 {
+	if queryMap != nil {
 		out["_query_"] = queryMap
 	}
-	if len(pathMap) > 0 {
+	if pathMap != nil {
 		out["_path_"] = pathMap
 	}
-	if len(form) > 0 {
+	if form != nil {
 		out["_form_"] = form
 	}
 	if body != nil {
