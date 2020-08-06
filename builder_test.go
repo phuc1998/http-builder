@@ -50,7 +50,8 @@ func TestGet(t *testing.T) {
 	cfg.HTTPClient = http.DefaultClient
 
 	apiClient := NewAPIClient(cfg)
-	_, err := apiClient.Builder("/booking/detail/:bookingCode").Get().
+	_, err := apiClient.Builder("/booking/detail/:bookingCode").
+		Get().
 		BuildRequest(request).
 		Call(context.Background(), response)
 	if err != nil {

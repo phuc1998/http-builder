@@ -111,10 +111,10 @@ func (b *builder) SetFormParam(key string, value interface{}) *builder {
 func (b *builder) BuildQuery(queryObject interface{}) *builder {
 	var (
 		structField = structs.Map(queryObject)
-		queryMap    = structField["_query_"].(map[string]interface{})
+		queryMap    = structField["_query_"]
 	)
-	if len(queryMap) > 0 {
-		for key, value := range queryMap {
+	if queryMap != nil {
+		for key, value := range queryMap.(map[string]interface{}) {
 			b.localVarQueryParams.Add(key, parameterToString(value, ""))
 		}
 		return b
@@ -129,10 +129,10 @@ func (b *builder) BuildQuery(queryObject interface{}) *builder {
 func (b *builder) BuildPath(pathObject interface{}) *builder {
 	var (
 		structField = structs.Map(pathObject)
-		pathMap     = structField["_path_"].(map[string]interface{})
+		pathMap     = structField["_path_"]
 	)
-	if len(pathMap) > 0 {
-		for key, value := range pathMap {
+	if pathMap != nil {
+		for key, value := range pathMap.(map[string]interface{}) {
 			b.url = strings.ReplaceAll(b.url, fmt.Sprintf(":%s", key), parameterToString(value, ""))
 		}
 		return b
@@ -146,10 +146,10 @@ func (b *builder) BuildPath(pathObject interface{}) *builder {
 func (b *builder) BuildHeader(headerObject interface{}) *builder {
 	var (
 		structField = structs.Map(headerObject)
-		headerMap   = structField["_header_"].(map[string]interface{})
+		headerMap   = structField["_header_"]
 	)
-	if len(headerMap) > 0 {
-		for key, value := range headerMap {
+	if headerMap != nil {
+		for key, value := range headerMap.(map[string]interface{}) {
 			b.localVarHeaderParams[key] = parameterToString(value, "")
 		}
 		return b
@@ -163,10 +163,10 @@ func (b *builder) BuildHeader(headerObject interface{}) *builder {
 func (b *builder) BuildForm(formObject interface{}) *builder {
 	var (
 		structField = structs.Map(formObject)
-		formMap     = structField["_form_"].(map[string]interface{})
+		formMap     = structField["_form_"]
 	)
-	if len(formMap) > 0 {
-		for key, value := range formMap {
+	if formMap != nil {
+		for key, value := range formMap.(map[string]interface{}) {
 			b.localVarFormParams.Add(key, parameterToString(value, ""))
 		}
 		return b
