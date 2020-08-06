@@ -142,7 +142,7 @@ func() {
   	
 ```
 
-> Tạo request với query param (dùng hàm ***BuildPath***(object))
+> Tạo request với path param (dùng hàm ***BuildPath***(object))
 
 ```go
 
@@ -188,14 +188,14 @@ func() {
 	apiClient := NewAPIClient(cfg)
 	_, err := apiClient.Builder("/booking/detail").
 		Get().
-        SetFormParam("id", "123456").
-        UseMultipartFormData().
+        	SetFormParam("id", "123456").
+        	UseMultipartFormData().
 		Call(context.Background(), response) //request url: http://localhost/cars/v1/booking/detail
 }
   	
 ```
 
-> Tạo request với query param (dùng hàm ***BuildForm***(object))
+> Tạo request với form data (dùng hàm ***BuildForm***(object))
 
 ```go
 
@@ -220,8 +220,8 @@ func() {
 	apiClient := NewAPIClient(cfg)
 	_, err := apiClient.Builder("/booking/detail").
 		Get().
-        BuildForm(req).
-        UseMultipartFormData().
+        	BuildForm(req).
+        	UseMultipartFormData().
 		Call(context.Background(), response) //request url: http://localhost/cars/v1/booking/detail?id=123456
 }
   	
