@@ -9,14 +9,13 @@
 
 ```go
 
-  cfg := NewConfiguration()
-	cfg.BasePath = "http://sb-vexere.zpapps.vn/cars/v1"
+  	cfg := NewConfiguration()
+	cfg.BasePath = "http://localhost/cars/v1"
 	cfg.HTTPClient = http.DefaultClient
 
 	apiClient := NewAPIClient(cfg)
-	_, err := apiClient.Builder("/booking/detail/:bookingCode").
+	_, err := apiClient.Builder("/booking/detail").
 		Get().
-		BuildRequest(request).
 		Call(context.Background(), response)
 
 ```
