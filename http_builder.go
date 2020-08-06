@@ -213,6 +213,26 @@ func (b *builder) BuildRequest(request interface{}) *builder {
 	return b
 }
 
+func (b *builder) UseXFormURLEncoded() *builder {
+	b.localVarHTTPContentTypes = []string{"application/x-www-form-urlencoded"}
+	return b
+}
+
+func (b *builder) UseMultipartFormData() *builder {
+	b.localVarHTTPContentTypes = []string{"multipart/form-data"}
+	return b
+}
+
+func (b *builder) UseApplicationJSON() *builder {
+	b.localVarHTTPContentTypes = []string{"application/json"}
+	return b
+}
+
+func (b *builder) UseApplicationXML() *builder {
+	b.localVarHTTPContentTypes = []string{"application/xml"}
+	return b
+}
+
 func (b *builder) Call(ctx _context.Context, response interface{}) (*_nethttp.Response, error) {
 	localVarPath := b.a.client.cfg.BasePath + b.uri
 	localVarHTTPContentType := selectHeaderContentType(b.localVarHTTPContentTypes)
