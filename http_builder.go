@@ -11,6 +11,9 @@ import (
 	"github.com/phuc1998/http-builder/structs"
 )
 
+//ParserCustomHandle custom parser
+type ParserCustomHandle func(interface{}, []byte) error
+
 // Linger please
 var (
 	_ _context.Context
@@ -63,7 +66,7 @@ func (b *builder) Delete() *builder {
 	return b
 }
 
-func (b *builder) BuildBody(body interface{}) *builder {
+func (b *builder) SetBody(body interface{}) *builder {
 	b.localVarPostBody = body
 	return b
 }
@@ -177,7 +180,7 @@ func (b *builder) BuildForm(formObject interface{}) *builder {
 	return b
 }
 
-//BuildRequest default base on http tag
+//BuildRequest default base on http tag, not support build body
 func (b *builder) BuildRequest(request interface{}) *builder {
 	var (
 		structField = structs.Map(request)
@@ -185,11 +188,7 @@ func (b *builder) BuildRequest(request interface{}) *builder {
 		queryMap    = structField["_query_"]
 		pathMap     = structField["_path_"]
 		formMap     = structField["_form_"]
-		body        = structField["_body_"]
 	)
-	if body != nil {
-		b.localVarPostBody = body
-	}
 	if headerMap != nil {
 		for key, value := range headerMap.(map[string]interface{}) {
 			b.localVarHeaderParams[key] = parameterToString(value, "")
@@ -233,7 +232,7 @@ func (b *builder) UseApplicationXML() *builder {
 	return b
 }
 
-func (b *builder) Call(ctx _context.Context, response interface{}) (*_nethttp.Response, error) {
+func (b *builder) Call(ctx _context.Context, response interface{}, parserCustom ...ParserCustomHandle) (*_nethttp.Response, error) {
 	localVarPath := b.a.client.cfg.BasePath + b.uri
 	localVarHTTPContentType := selectHeaderContentType(b.localVarHTTPContentTypes)
 	if localVarHTTPContentType != "" {
@@ -266,16 +265,19 @@ func (b *builder) Call(ctx _context.Context, response interface{}) (*_nethttp.Re
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			err = b.a.client.decode(&response, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
+	}
+
+	if len(parserCustom) > 0 {
+		err = parserCustom[0](response, localVarBody)
+		if err != nil {
+			newErr := GenericOpenAPIError{
+				body:  localVarBody,
+				error: err.Error(),
 			}
-			newErr.model = response
 			return localVarHTTPResponse, newErr
 		}
-		return localVarHTTPResponse, newErr
+		return localVarHTTPResponse, nil
 	}
 
 	err = b.a.client.decode(&response, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))

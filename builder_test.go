@@ -34,7 +34,7 @@ type RequestCallback struct {
 
 func TestGet(t *testing.T) {
 	var (
-		response = &CommonResult{}
+		response = CommonResult{}
 		request  = &RequestCallback{
 			Keyword:      "ho chi minh",
 			Muid:         "---jjjjj-sdfd",
@@ -46,14 +46,24 @@ func TestGet(t *testing.T) {
 		}
 	)
 	cfg := NewConfiguration()
-	cfg.BasePath = "http://localhost/cars/v1"
+	cfg.BasePath = "https://http-builder.free.beeceptor.com"
 	cfg.HTTPClient = http.DefaultClient
+
+	customParser := func(resp interface{}, body []byte) error {
+		result := resp.(*CommonResult)
+		r := string(body)
+		result.Message = r
+		return nil
+	}
+
+	ctx := context.WithValue(context.Background(), ContextAccessToken, "key")
 
 	apiClient := NewAPIClient(cfg)
 	_, err := apiClient.Builder("/booking/detail/:bookingCode").
-		Get().
+		Post().
 		BuildRequest(request).
-		Call(context.Background(), response)
+		SetBody(request.Body).
+		Call(ctx, &response, customParser)
 	if err != nil {
 		fmt.Printf("err %v", err)
 	}

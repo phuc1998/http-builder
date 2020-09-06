@@ -92,7 +92,6 @@ func (s *Struct) FillMap(out map[string]interface{}) {
 		queryMap  map[string]interface{}
 		pathMap   map[string]interface{}
 		form      map[string]interface{}
-		body      interface{}
 	)
 	if out == nil {
 		return
@@ -170,10 +169,10 @@ func (s *Struct) FillMap(out map[string]interface{}) {
 			continue
 		}
 
-		if tagOpts.Has("body") {
-			body = finalVal
-			continue
-		}
+		// if tagOpts.Has("body") {
+		// 	out["_body_"] = finalVal
+		// 	continue
+		// }
 
 		if tagOpts.Has("string") {
 			s, ok := val.Interface().(fmt.Stringer)
@@ -202,9 +201,6 @@ func (s *Struct) FillMap(out map[string]interface{}) {
 	}
 	if form != nil {
 		out["_form_"] = form
-	}
-	if body != nil {
-		out["_body_"] = body
 	}
 }
 
