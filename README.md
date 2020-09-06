@@ -257,63 +257,10 @@ func() {
   	
 ```
 
-> Tạo request với body data (dùng hàm ***BuildBody***(object))
+
+> Tạo request với nhiều yếu tố (dùng hàm ***BuildRequest***(object)), vẫn chưa support build body
 
 ```go
-
-type RequestBody struct {
-	// tag is one of followings:
-	// ""
-	// "name"
-	// "name,opt"
-	// "name,opt,opt2"
-	// ",opt"
-	ID string `json:"id"` 
-}
-
-
-type Request struct {
-	// tag is one of followings:
-	// ""
-	// "name"
-	// "name,opt"
-	// "name,opt,opt2"
-	// ",opt"
-	Body RequestBody `http:"body,body"` //`http:",body"`
-}
-
-func() {
-	req := &Request{
-		Body: RequestBody{
-			ID: "123456",
-		},
-	}
-    	cfg := NewConfiguration()
-	cfg.BasePath = "http://localhost/cars/v1"
-	cfg.HTTPClient = http.DefaultClient
-
-	apiClient := NewAPIClient(cfg)
-	_, err := apiClient.Builder("/booking/detail").
-		Post().
-		BuildBody(req).
-		Call(context.Background(), response) //request url: http://localhost/cars/v1/booking/detail
-}
-  	
-```
-
-> Tạo request với nhiều yếu tố (dùng hàm ***BuildRequest***(object))
-
-```go
-
-type RequestBody struct {
-	// tag is one of followings:
-	// ""
-	// "name"
-	// "name,opt"
-	// "name,opt,opt2"
-	// ",opt"
-	ID string `json:"id"` 
-}
 
 
 type Request struct {
@@ -325,16 +272,12 @@ type Request struct {
 	// ",opt"
 	Muid string 	`http:"muid,header"`
 	KeyWord string `http:"keyword,query"`
-	Body RequestBody `http:"body,body"` //`http:",body"`
 }
 
 func() {
 	req := &Request{
 		Muid: "abc",
 		Keyword: "cba",
-		Body: RequestBody{
-			ID: "123456",
-		},
 	}
     	cfg := NewConfiguration()
 	cfg.BasePath = "http://localhost/cars/v1"
