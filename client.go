@@ -17,7 +17,6 @@ import (
 	"path/filepath"
 	"reflect"
 	"regexp"
-	"strconv"
 	"strings"
 	"time"
 	"unicode/utf8"
@@ -53,10 +52,6 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.client = c
 
 	return c
-}
-
-func atoi(in string) (int, error) {
-	return strconv.Atoi(in)
 }
 
 // selectHeaderContentType select a content type from the available list.
@@ -417,7 +412,7 @@ func setBody(body interface{}, contentType string) (bodyBuf *bytes.Buffer, err e
 	return bodyBuf, nil
 }
 
-// detectContentType method is used to figure out `Request.Body` content type for request header
+// detectContentType method is used to figure out `Request.Body` content type for request authorizationType
 func detectContentType(body interface{}) string {
 	contentType := "text/plain; charset=utf-8"
 	kind := reflect.TypeOf(body).Kind()

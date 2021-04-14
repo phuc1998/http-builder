@@ -76,6 +76,21 @@ func (b *builder) SetHeader(key string, value interface{}) *builder {
 	return b
 }
 
+func (b *builder) SetBasicAuthHeader(value BasicAuth) *builder {
+	b.localVarHeaderParams[AuthorizationHeader] = fmt.Sprintf(headerFormatString, BasicAuthHeader, basicAuth(value.UserName, value.Password))
+	return b
+}
+
+func (b *builder) SetBearerHeader(value string) *builder {
+	b.localVarHeaderParams[AuthorizationHeader] = fmt.Sprintf(headerFormatString, BearerHeader, parameterToString(value, ""))
+	return b
+}
+
+func (b *builder) SetAPIKeyHeader(value APIKey) *builder {
+	b.localVarHeaderParams[value.Key] = parameterToString(value.Value, "")
+	return b
+}
+
 func (b *builder) SetContentType(contentType string) *builder {
 	b.localVarHTTPContentTypes = append(b.localVarHTTPContentTypes, contentType)
 	return b
@@ -239,7 +254,7 @@ func (b *builder) Call(ctx _context.Context, response interface{}, parserCustom 
 		b.localVarHeaderParams["Content-Type"] = localVarHTTPContentType
 	}
 
-	// set Accept header
+	// set Accept authorizationType
 	localVarHTTPHeaderAccept := selectHeaderAccept(b.localVarAcceptHeader)
 	if localVarHTTPHeaderAccept != "" {
 		b.localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
