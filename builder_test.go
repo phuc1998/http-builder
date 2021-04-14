@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"testing"
 )
 
@@ -131,41 +130,4 @@ func TestGet(t *testing.T) {
 	}
 	fmt.Printf("response %v\n", response)
 	t.Logf("response %v\n", response)
-}
-
-type Response struct {
-	StatusCode int32  `json:"statusCode"`
-	Message    string `json:"message"`
-}
-
-type Request struct {
-	// tag is one of followings:
-	// ""
-	// "name"
-	// "name,opt"
-	// "name,opt,opt2"
-	// ",opt"
-	ID string `http:"id,header"`
-}
-
-func main() {
-	var (
-		response interface{}
-		basePath = "http://localhost/cars/v1"
-		req      = &Request{
-			ID: "123456",
-		}
-	)
-
-	cfg := NewConfiguration().AddBasePath(basePath)
-	apiClient := NewAPIClient(cfg)
-	_, err := apiClient.Builder("/booking/detail").
-		Get().
-		SetBody(req).
-		Call(context.Background(), response) //request url: http://localhost/cars/v1/booking/detail
-
-	log.Println("Response", response)
-	if err != nil {
-		log.Fatal(err)
-	}
 }
