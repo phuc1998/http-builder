@@ -3,6 +3,7 @@ package builder
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -30,17 +31,7 @@ var (
 	ContextAPIKey = contextKey("apikey")
 )
 
-// BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth
-type BasicAuth struct {
-	UserName string `json:"userName,omitempty"`
-	Password string `json:"password,omitempty"`
-}
 
-// APIKey provides API key based authentication to a request passed via context using ContextAPIKey
-type APIKey struct {
-	Key    string
-	Prefix string
-}
 
 // ServerVariable stores the information about a server variable
 type ServerVariable struct {
@@ -81,13 +72,33 @@ func NewConfiguration() *Configuration {
 				Description: "No description provided",
 			},
 		},
+		HTTPClient: http.DefaultClient,
 	}
 	return cfg
 }
 
-// AddDefaultHeader adds a new HTTP header to the default header in the request
-func (c *Configuration) AddDefaultHeader(key string, value string) {
+// AddDefaultHeader adds a new HTTP authorizationType to the default authorizationType in the request
+func (c *Configuration) AddDefaultHeader(key string, value string) *Configuration {
 	c.DefaultHeader[key] = value
+	return c
+}
+
+// AddHTTPClient adds a custom HTTP client into builder
+func (c *Configuration) AddHTTPClient(client *http.Client) *Configuration{
+	if client != nil {
+		c.HTTPClient = client
+	}
+	return c
+}
+
+// AddBasePath adds a base path into builder
+func (c *Configuration) AddBasePath(basePath string) *Configuration{
+	if len(basePath) > 0 {
+		if _, err := url.Parse(basePath); err == nil {
+			c.BasePath = basePath
+		}
+	}
+	return c
 }
 
 // ServerUrl returns URL based on server settings
