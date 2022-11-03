@@ -136,9 +136,11 @@ func parameterToJson(obj interface{}) (string, error) {
 }
 
 // callAPI do the request.
-func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
+func (c *APIClient) callAPI(request *http.Request, dumpOutGoingRequest *string) (*http.Response, error) {
 	if c.cfg.Debug {
 		dump, err := httputil.DumpRequestOut(request, true)
+		dumpString := string(dump)
+		dumpOutGoingRequest = &dumpString
 		if err != nil {
 			return nil, err
 		}
