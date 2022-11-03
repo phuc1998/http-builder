@@ -32,6 +32,7 @@ type builder struct {
 	localVarQueryParams      _neturl.Values
 	localVarFormParams       _neturl.Values
 	localVarHTTPContentTypes []string
+	dumpRequestOut           *string
 }
 
 func (a *service) Builder(uri string, acceptHeader ...string) *builder {
@@ -247,6 +248,13 @@ func (b *builder) UseApplicationXML() *builder {
 	return b
 }
 
+func (b *builder) DumbOutRequest(requestString *string) *builder {
+	dumpString := ""
+	b.dumpRequestOut = &dumpString
+	requestString = b.dumpRequestOut
+	return b
+}
+
 func (b *builder) Call(ctx _context.Context, response interface{}, parserCustom ...ParserCustomHandle) (*_nethttp.Response, error) {
 	localVarPath := b.a.client.cfg.BasePath + b.uri
 	localVarHTTPContentType := selectHeaderContentType(b.localVarHTTPContentTypes)
@@ -259,12 +267,14 @@ func (b *builder) Call(ctx _context.Context, response interface{}, parserCustom 
 	if localVarHTTPHeaderAccept != "" {
 		b.localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+
 	r, err := b.a.client.prepareRequest(ctx, localVarPath, b.localVarHTTPMethod, b.localVarPostBody, b.localVarHeaderParams, b.localVarQueryParams, b.localVarFormParams, b.localVarFormFileName, b.localVarFileName, b.localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}
 
-	localVarHTTPResponse, err := b.a.client.callAPI(r)
+	localVarHTTPResponse, err := b.a.client.callAPI(r, b.dumpRequestOut)
+
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarHTTPResponse, err
 	}
